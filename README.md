@@ -1,4 +1,6 @@
-meta-example
+meta-gizmite
 ============
 
-Yocto/OpenEmbedded layer showing example recipe
+Yocto/OpenEmbedded layer for Gizmite board support.
+
+Further instructions coming soon.
