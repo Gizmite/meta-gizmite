@@ -16,8 +16,8 @@ This layer depends on:
   layers: meta
   branch: master
 
-  URI: git://git.yoctoproject.org/xxxx
-  layers: xxxx
+  URI: git://git.yoctoproject.org/meta-fsl-arm
+  layers: meta-fsl-arm
   branch: master
 
 
@@ -25,9 +25,9 @@ Patches
 =======
 
 Please submit any patches against the example layer to the
-xxxx mailing list (xxxx@zzzz.org) and cc: the maintainer:
+xxxx mailing list (xxxx@zzzz.org) and cc: the maintainer: //TODO: Add mailing list
 
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+Maintainer: Steven Barker <steven.barker@gizmite.com>
 
 
 Table of Contents
@@ -54,7 +54,7 @@ other layers needed. e.g.:
     /path/to/yocto/meta \
     /path/to/yocto/meta-yocto \
     /path/to/yocto/meta-yocto-bsp \
-    /path/to/yocto/meta-example \
+    /path/to/yocto/meta-gizmite \
     "
 
 
