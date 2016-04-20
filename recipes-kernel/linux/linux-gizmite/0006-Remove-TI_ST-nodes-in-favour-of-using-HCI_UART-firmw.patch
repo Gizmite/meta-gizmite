@@ -1,0 +1,55 @@
+From 6cd6db8bbc2c78177d2abce61ae67d05a0e50ed8 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Wed, 20 Apr 2016 17:31:27 +1000
+Subject: [PATCH 6/6] Remove TI_ST nodes in favour of using HCI_UART firmware
+ loader.
+
+Remove DTE switching from bluetooth UART.
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ arch/arm/boot/dts/imx6qdl-gizmite.dtsi | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6qdl-gizmite.dtsi b/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
+index bfacf52..ddbb9db 100644
+--- a/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
+@@ -47,18 +47,6 @@
+ 		};
+ 	};
+ 
+-	btwilink {
+-		compatible = "btwilink";
+-	};
+-
+-	kim {
+-		compatible = "kim";
+-		nshutdown_gpio = <2>;
+-		dev_name = "/dev/ttymxc4";
+-		flow_cntrl = <1>;
+-		baud_rate = <115200>;
+-	};
+-
+ };
+ 
+ &ecspi1 {
+@@ -211,7 +199,6 @@
+ 	};
+ };
+ 
+-
+ &iomuxc {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_hog>;
+@@ -358,7 +345,6 @@
+ &uart5 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_uart5>;
+-	fsl,dte-mode;
+ 	fsl,uart-has-rtscts;
+ 	status = "okay";
+ };
+-- 
+2.1.4
+

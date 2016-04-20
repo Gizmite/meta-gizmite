@@ -1,0 +1,266 @@
+From eac08ddb39edc17f61e41bfed744ffc086ccea69 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Fri, 8 Apr 2016 21:29:09 +1000
+Subject: [PATCH 2/6] Add changes originally staged by xxx for Si114x
+ ALS/Proximity sensor
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ drivers/iio/light/Kconfig  | 15 ++++++++
+ drivers/iio/light/Makefile |  3 +-
+ drivers/iio/light/si114x.c | 94 ++++++++++++++++++++++++++++++++--------------
+ 3 files changed, 83 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/iio/light/Kconfig b/drivers/iio/light/Kconfig
+index cfd3df8..3458e87 100644
+--- a/drivers/iio/light/Kconfig
++++ b/drivers/iio/light/Kconfig
+@@ -310,6 +310,21 @@ config US5182D
+ 	 This driver can also be built as a module.  If so, the module
+ 	 will be called us5182d.
+ 
++config SI114X
++	tristate "SI114x combined ALS and proximity sensor"
++	depends on I2C
++	select IIO_BUFFER
++	select IIO_TRIGGERED_BUFFER
++	default n
++	---help---
++	  Say Y here if you want to build a driver for the Silicon Labs SI114x
++	  combined ambient light and proximity sensor chips (SI1141, SI1142,
++	  SI1143). The driver supports forced (with and w/o IRQ) and autonomous
++	  measurements (with IRQ only).
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called si114x.
++
+ config VCNL4000
+ 	tristate "VCNL4000 combined ALS and proximity sensor"
+ 	depends on I2C
+diff --git a/drivers/iio/light/Makefile b/drivers/iio/light/Makefile
+index b2c3105..8921479 100644
+--- a/drivers/iio/light/Makefile
++++ b/drivers/iio/light/Makefile
+@@ -24,7 +24,8 @@ obj-$(CONFIG_OPT3001)		+= opt3001.o
+ obj-$(CONFIG_PA12203001)	+= pa12203001.o
+ obj-$(CONFIG_RPR0521)		+= rpr0521.o
+ obj-$(CONFIG_SENSORS_TSL2563)	+= tsl2563.o
+-obj-$(CONFIG_STK3310)          += stk3310.o
++obj-$(CONFIG_SI114X)		+= si114x.o
++obj-$(CONFIG_STK3310)           += stk3310.o
+ obj-$(CONFIG_TCS3414)		+= tcs3414.o
+ obj-$(CONFIG_TCS3472)		+= tcs3472.o
+ obj-$(CONFIG_TSL4531)		+= tsl4531.o
+diff --git a/drivers/iio/light/si114x.c b/drivers/iio/light/si114x.c
+index 1636c0e..94a4e5f 100644
+--- a/drivers/iio/light/si114x.c
++++ b/drivers/iio/light/si114x.c
+@@ -349,7 +349,7 @@ static irqreturn_t si114x_trigger_handler(int irq, void *private)
+ 	if (indio_dev->scan_timestamp)
+ 		*(s64 *)(buffer + ALIGN(len, sizeof(s64)))
+ 			= iio_get_time_ns();
+-	iio_push_to_buffer(indio_dev->buffer, buffer);
++	iio_push_to_buffers(indio_dev, buffer);
+ 
+ done:
+ 	iio_trigger_notify_done(indio_dev->trig);
+@@ -370,7 +370,7 @@ static irqreturn_t si114x_irq(int irq, void *private)
+ 		return IRQ_HANDLED;
+ 
+ 	if (iio_buffer_enabled(indio_dev))
+-		iio_trigger_poll_chained(indio_dev->trig, 0);
++		iio_trigger_poll_chained(indio_dev->trig);
+ 	else {
+ 		data->got_data = true;
+ 		wake_up_interruptible(&data->data_avail);
+@@ -387,8 +387,9 @@ static irqreturn_t si114x_irq(int irq, void *private)
+ 
+ static int si114x_trigger_set_state(struct iio_trigger *trig, bool state)
+ {
+-	struct iio_dev *indio_dev = trig->private_data;
+-	struct si114x_data *data = iio_priv(indio_dev);
++        struct iio_dev *indio_dev = iio_trigger_get_drvdata(trig);
++        struct si114x_data *data = iio_priv(indio_dev);
++
+ 	int ret;
+ 	int cmd;
+ 
+@@ -417,12 +418,13 @@ static int si114x_probe_trigger(struct iio_dev *indio_dev)
+ 	int ret;
+ 
+ 	data->trig = iio_trigger_alloc("si114x-dev%d", indio_dev->id);
++
+ 	if (!data->trig)
+ 		return -ENOMEM;
+ 
+ 	data->trig->dev.parent = &data->client->dev;
+ 	data->trig->ops = &si114x_trigger_ops;
+-	data->trig->private_data = indio_dev;
++        iio_trigger_set_drvdata(data->trig, indio_dev);
+ 	ret = iio_trigger_register(data->trig);
+ 	if (ret)
+ 		goto error_free_trig;
+@@ -650,28 +652,43 @@ static inline unsigned int si114x_leds(struct si114x_data *data)
+ 
+ #define SI114X_INTENSITY_CHANNEL(_si) { \
+ 	.type = IIO_INTENSITY, \
+-	.info_mask = IIO_CHAN_INFO_RAW_SEPARATE_BIT | \
+-		IIO_CHAN_INFO_HARDWAREGAIN_SEPARATE_BIT, \
+-	.scan_type = IIO_ST('u', 16, 16, 0), \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | \
++				BIT(IIO_CHAN_INFO_HARDWAREGAIN), \
++        .scan_type = { \
++        	.sign = 'u', \
++                .realbits = 16, \
++                .storagebits = 16, \
++                .shift = 0, \
++        }, \
+ 	.scan_index = _si, \
+ 	.address = SI114X_REG_ALSVIS_DATA0, \
+ }
+ 
+ #define SI114X_INTENSITY_IR_CHANNEL(_si) { \
+ 	.type = IIO_INTENSITY, \
+-	.info_mask = IIO_CHAN_INFO_RAW_SEPARATE_BIT | \
+-		IIO_CHAN_INFO_HARDWAREGAIN_SEPARATE_BIT, \
+ 	.modified = 1, \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | \
++				BIT(IIO_CHAN_INFO_HARDWAREGAIN), \
+ 	.channel2 = IIO_MOD_LIGHT_IR, \
+-	.scan_type = IIO_ST('u', 16, 16, 0), \
++        .scan_type = { \
++        	.sign = 'u', \
++                .realbits = 16, \
++                .storagebits = 16, \
++                .shift = 0, \
++        }, \
+ 	.scan_index = _si, \
+ 	.address = SI114X_REG_ALSIR_DATA0 \
+ }
+ 
+ #define SI114X_TEMP_CHANNEL(_si) { \
+ 	.type = IIO_TEMP, \
+-	.info_mask = IIO_CHAN_INFO_RAW_SEPARATE_BIT, \
+-	.scan_type = IIO_ST('u', 16, 16, 0), \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
++        .scan_type = { \
++        	.sign = 'u', \
++                .realbits = 16, \
++                .storagebits = 16, \
++                .shift = 0, \
++        }, \
+ 	.scan_index = _si, \
+ 	.address = SI114X_REG_AUX_DATA0 \
+ }
+@@ -679,20 +696,26 @@ static inline unsigned int si114x_leds(struct si114x_data *data)
+ #define SI114X_PROXIMITY_CHANNEL(_si, _ch) { \
+ 	.type = IIO_PROXIMITY, \
+ 	.indexed = 1, \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | \
++				BIT(IIO_CHAN_INFO_HARDWAREGAIN), \
+ 	.channel = _ch, \
+-	.info_mask = IIO_CHAN_INFO_RAW_SEPARATE_BIT | \
+-		IIO_CHAN_INFO_HARDWAREGAIN_SHARED_BIT, \
+-	.scan_type = IIO_ST('u', 16, 16, 0), \
++        .scan_type = { \
++        	.sign = 'u', \
++                .realbits = 16, \
++                .storagebits = 16, \
++                .shift = 0, \
++        }, \
+ 	.scan_index = _si, \
+ 	.address = SI114X_REG_PS1_DATA0 + _ch*2 \
+ }
+ 
+-#define SI114X_CURRENT_CHANNEL(_ch) { \
++#define SI114X_CURRENT_CHANNEL(_si, _ch) { \
+ 	.type = IIO_CURRENT, \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
+ 	.indexed = 1, \
+ 	.channel = _ch, \
++	.scan_index = _si, \
+ 	.output = 1, \
+-	.info_mask = IIO_CHAN_INFO_RAW_SEPARATE_BIT \
+ }
+ 
+ static const struct iio_chan_spec si114x_channels[] = {
+@@ -701,11 +724,11 @@ static const struct iio_chan_spec si114x_channels[] = {
+ 	SI114X_INTENSITY_IR_CHANNEL(2),
+ 	SI114X_TEMP_CHANNEL(3),
+ 	SI114X_PROXIMITY_CHANNEL(4, 0),
+-	SI114X_CURRENT_CHANNEL(0),
+-	SI114X_PROXIMITY_CHANNEL(5, 1),
+-	SI114X_CURRENT_CHANNEL(1),
+-	SI114X_PROXIMITY_CHANNEL(6, 2),
+-	SI114X_CURRENT_CHANNEL(2),
++	SI114X_CURRENT_CHANNEL(5, 0),
++	SI114X_PROXIMITY_CHANNEL(6, 1),
++	SI114X_CURRENT_CHANNEL(7, 1),
++	SI114X_PROXIMITY_CHANNEL(8, 2),
++	SI114X_CURRENT_CHANNEL(9, 2),
+ };
+ 
+ static ssize_t si114x_range_store(struct device *dev,
+@@ -896,6 +919,21 @@ static int si114x_initialize(struct iio_dev *indio_dev)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	/* set proximity ADC to use small photodiode for less sensitive,
++	 * but less noisy results for PS measurement */
++	ret = si114x_param_op(data, SI114X_CMD_PARAM_SET,
++		SI114X_PARAM_PS1_ADC_MUX, 0x3);
++	if (ret < 0)
++		return ret;
++	ret = si114x_param_op(data, SI114X_CMD_PARAM_SET,
++		SI114X_PARAM_PS2_ADC_MUX, 0x3);
++	if (ret < 0)
++		return ret;
++	ret = si114x_param_op(data, SI114X_CMD_PARAM_SET,
++		SI114X_PARAM_PS3_ADC_MUX, 0x3);
++	if (ret < 0)
++		return ret;
++
+ 	return 0;
+ }
+ 
+@@ -1024,7 +1062,7 @@ static int si114x_buffer_preenable(struct iio_dev *indio_dev)
+ 	if (!bitmap_weight(buffer->scan_mask, indio_dev->masklength))
+ 		return -EINVAL;
+ 
+-	return iio_sw_buffer_preenable(indio_dev);
++	return 0;
+ }
+ 
+ static int si114x_buffer_postenable(struct iio_dev *indio_dev)
+@@ -1061,8 +1099,8 @@ static const struct iio_buffer_setup_ops si114x_buffer_setup_ops = {
+ 	.predisable = si114x_buffer_predisable,
+ };
+ 
+-static int __devinit si114x_probe(struct i2c_client *client,
+-					const struct i2c_device_id *id)
++static int si114x_probe(struct i2c_client *client,
++				const struct i2c_device_id *id)
+ {
+ 	struct si114x_data *data;
+ 	struct iio_dev *indio_dev;
+@@ -1152,7 +1190,7 @@ static const struct i2c_device_id si114x_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, si114x_id);
+ 
+-static int __devexit si114x_remove(struct i2c_client *client)
++static int si114x_remove(struct i2c_client *client)
+ {
+ 	struct iio_dev *indio_dev = i2c_get_clientdata(client);
+ 	struct si114x_data *data = iio_priv(indio_dev);
+@@ -1174,7 +1212,7 @@ static struct i2c_driver si114x_driver = {
+ 		.owner  = THIS_MODULE,
+ 	},
+ 	.probe  = si114x_probe,
+-	.remove = __devexit_p(si114x_remove),
++	.remove = si114x_remove,
+ 	.id_table = si114x_id,
+ };
+ 
+-- 
+2.1.4
+

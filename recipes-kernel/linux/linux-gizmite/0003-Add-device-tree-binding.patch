@@ -1,0 +1,46 @@
+From c8957661febebb549fe0fb9ea538e953f864e32e Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Fri, 8 Apr 2016 21:29:52 +1000
+Subject: [PATCH 3/6] Add device tree binding
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ drivers/iio/pressure/mpl115_spi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/iio/pressure/mpl115_spi.c b/drivers/iio/pressure/mpl115_spi.c
+index 9ebf55f..3747bc2 100644
+--- a/drivers/iio/pressure/mpl115_spi.c
++++ b/drivers/iio/pressure/mpl115_spi.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/spi/spi.h>
++#include <linux/of.h>
+ 
+ #include "mpl115.h"
+ 
+@@ -86,6 +87,12 @@ static int mpl115_spi_probe(struct spi_device *spi)
+ 	return mpl115_probe(&spi->dev, id->name, &mpl115_spi_ops);
+ }
+ 
++static const struct of_device_id mpl115_spi_of_match[] = {
++        { .compatible = "fsl,mpl115" },
++        { },
++};
++MODULE_DEVICE_TABLE(of, mpl115_spi_of_match);
++
+ static const struct spi_device_id mpl115_spi_ids[] = {
+ 	{ "mpl115", 0 },
+ 	{}
+@@ -95,6 +102,7 @@ MODULE_DEVICE_TABLE(spi, mpl115_spi_ids);
+ static struct spi_driver mpl115_spi_driver = {
+ 	.driver = {
+ 		.name   = "mpl115",
++		.of_match_table = of_match_ptr(mpl115_spi_of_match),
+ 	},
+ 	.probe = mpl115_spi_probe,
+ 	.id_table = mpl115_spi_ids,
+-- 
+2.1.4
+

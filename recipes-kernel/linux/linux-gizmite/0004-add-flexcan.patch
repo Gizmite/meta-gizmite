@@ -1,0 +1,44 @@
+From 77cea869141104f12e4b31dcaa643208807c45f6 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Sat, 16 Apr 2016 20:04:21 +1000
+Subject: [PATCH 4/6] add flexcan
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ arch/arm/boot/dts/imx6qdl-gizmite.dtsi | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6qdl-gizmite.dtsi b/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
+index 6ce92ac..bfacf52 100644
+--- a/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-gizmite.dtsi
+@@ -84,6 +84,12 @@
+         status = "okay";
+ };
+ 
++&can1 {
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_flexcan1>;
++        status = "okay";
++};
++
+ &i2c1 {
+ 	clock-frequency = <100000>;
+ 	pinctrl-names = "default";
+@@ -256,6 +262,13 @@
+                         >;
+                 };
+ 
++                pinctrl_flexcan1: flexcan1grp {
++                        fsl,pins = <
++                                MX6QDL_PAD_GPIO_7__FLEXCAN1_TX          0x1b0b0
++                                MX6QDL_PAD_GPIO_8__FLEXCAN1_RX          0x1b0b0
++                        >;
++                };
++
+ 		pinctrl_i2c1: i2c1grp {
+ 			fsl,pins = <
+ 				MX6QDL_PAD_CSI0_DAT9__I2C1_SCL		0x4001b8b1
+-- 
+2.1.4
+
