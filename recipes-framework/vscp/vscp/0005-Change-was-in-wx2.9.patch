@@ -1,0 +1,42 @@
+From 7655696ae308efab501ab7d06d70466131c83651 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Tue, 19 Apr 2016 23:30:35 +1000
+Subject: [PATCH 2/2] Change was in wx2.9
+
+* Whitespace cleanup on isle 3
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ src/vscp/vscpcmd/vscpcmd.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/vscp/vscpcmd/vscpcmd.cpp b/src/vscp/vscpcmd/vscpcmd.cpp
+index 9e46cdd..c93d3d6 100644
+--- a/src/vscp/vscpcmd/vscpcmd.cpp
++++ b/src/vscp/vscpcmd/vscpcmd.cpp
+@@ -556,17 +556,17 @@ uint8_t setNormalizedValue(wxString& wxstrval,
+     msgdata[ 0 ] = (type | VSCP_DATACODING_NORMALIZED);
+     pto = buf;
+ 
+-#if wxCHECK_VERSION(3,0,0)
++#if wxCHECK_VERSION(2,9,5)
+     while (wxstrval[pos].GetValue()) {
+ #else
+-    while (wxstrval.GetChar(pos)) {    
+-#endif        
++    while (wxstrval.GetChar(pos)) {
++#endif
+ 
+-#if wxCHECK_VERSION(3,0,0)
++#if wxCHECK_VERSION(2,9,5)
+         switch ( wxstrval[pos].GetValue() ) {
+ #else
+         switch ( wxstrval.GetChar(pos) ) {
+-#endif 
++#endif
+ 
+         case '+':
+             bNegative = false;
+-- 
+2.1.4
+

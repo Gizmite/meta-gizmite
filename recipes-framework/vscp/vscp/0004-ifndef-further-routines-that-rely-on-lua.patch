@@ -1,0 +1,49 @@
+From abd320dfe6363aa690786f04e1f2aea024e2df27 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Tue, 19 Apr 2016 23:29:22 +1000
+Subject: [PATCH 1/2] ifndef further routines that rely on lua
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ src/vscp/common/dm.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/vscp/common/dm.cpp b/src/vscp/common/dm.cpp
+index 85d5c1e..cc8feef 100644
+--- a/src/vscp/common/dm.cpp
++++ b/src/vscp/common/dm.cpp
+@@ -1643,6 +1643,7 @@ bool dmElement::doAction( vscpEvent *pEvent )
+             doActionWriteTable( pEvent );
+             break;
+         
++#ifndef VSCP_DISABLE_LUA
+         case VSCP_DAEMON_ACTION_CODE_RUN_LUA:
+ 
+             logStr = wxString::Format(_("VSCP_DAEMON_ACTION_CODE_RUN_LUA.") ); // Log
+@@ -1674,6 +1675,7 @@ bool dmElement::doAction( vscpEvent *pEvent )
+             
+             }
+         break;
++#endif
+ 
+         default:
+         case VSCP_DAEMON_ACTION_CODE_NOOP:
+@@ -4338,7 +4340,7 @@ void actionThread_VSCPSrv::OnExit()
+ 
+ 
+ 
+-
++#ifndef VSCP_DISABLE_LUA
+ ///////////////////////////////////////////////////////////////////////////////
+ // actionThread_LUA
+ //
+@@ -4404,5 +4406,5 @@ void actionThread_LUA::OnExit()
+ 
+ }
+ 
+-
++#endif
+ 
+-- 
+2.1.4
+

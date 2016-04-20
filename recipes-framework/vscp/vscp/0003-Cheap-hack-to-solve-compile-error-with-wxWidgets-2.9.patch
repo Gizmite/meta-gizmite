@@ -1,0 +1,23 @@
+From 72afa3e711c3fcebcd3297981c819a4a9a72dd95 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Tue, 19 Apr 2016 21:06:47 +1000
+Subject: [PATCH 3/3] Cheap hack to solve compile error with wxWidgets 2.9.5
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+
+diff --git a/src/vscp/common/udpclientthread.cpp b/src/vscp/common/udpclientthread.cpp
+index 9b22f4d..edaf4da 100644
+--- a/src/vscp/common/udpclientthread.cpp
++++ b/src/vscp/common/udpclientthread.cpp
+@@ -267,7 +267,7 @@ VSCPUDPClientThread::ev_handler(struct mg_connection *nc, int ev, void *p)
+ #if wxMAJOR_VERSION >= 3
+                     wxLogDebug( _("Password/Username failure.") );
+ #else
+-                    ::wxLogDebug( _("Password/Username failure.") );
++                    wxLogDebug( _("Password/Username failure.") );
+ #endif
+                     mg_send( nc,  MSG_PASSWORD_ERROR, strlen ( MSG_PASSWORD_ERROR ) );
+                     return;
+-- 
+2.1.4
+

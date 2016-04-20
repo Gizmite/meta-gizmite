@@ -1,0 +1,22 @@
+From 29dc5e6c98f6c2b8475cbae7e453be94c3299649 Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Tue, 19 Apr 2016 21:06:06 +1000
+Subject: [PATCH 2/3] Add openssl header to fix compile error
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+
+diff --git a/src/vscp/common/controlobject.cpp b/src/vscp/common/controlobject.cpp
+index ca29f7d..4b2517f 100644
+--- a/src/vscp/common/controlobject.cpp
++++ b/src/vscp/common/controlobject.cpp
+@@ -100,6 +100,7 @@
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+ #include <pwd.h>
++#include <openssl/opensslv.h>
+ 
+ #include "wx/wx.h"
+ #include "wx/defs.h"
+-- 
+2.1.4
+
