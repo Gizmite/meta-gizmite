@@ -10,6 +10,9 @@ include linux-gizmite.inc
 
 PV = "4.6+git${SRCPV}"
 
+SRCBRANCH = "master"
+SRCREV = "1410b74e4061e05a5d2bffb1f99829efce27c8a9"
+
 SRC_URI += " \
 	file://0001-Add-hardware-support-for-Gizmite-iMX6-DualLite-board.patch \
 	file://0002-Add-changes-originally-staged-by-xxx-for-Si114x-ALS-.patch \
