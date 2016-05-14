@@ -1,0 +1,57 @@
+From 57883ab367650a9e85cf70d0617728a218496acf Mon Sep 17 00:00:00 2001
+From: Steven Barker <steven.barker@gizmite.com>
+Date: Thu, 28 Apr 2016 23:44:13 +1000
+Subject: [PATCH 8/8] add panel definition for ER-TFT050-3
+
+Signed-off-by: Steven Barker <steven.barker@gizmite.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index ceb2048..ab87d5a 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -935,6 +935,29 @@ static const struct panel_desc innolux_zj070na_01p = {
+ 	},
+ };
+ 
++static const struct drm_display_mode eastrising_er_tft050_3_mode = {
++	.clock = 30000,
++	.hdisplay = 800,
++	.hsync_start = 800 + 48,
++	.hsync_end = 800 + 48 + 40,
++	.htotal = 800 + 40 + 88,
++	.vdisplay = 480,
++	.vsync_start = 480 + 3,
++	.vsync_end = 480 + 3 + 29,
++	.vtotal = 480 + 32 + 13,
++	.vrefresh = 50,
++};
++
++static const struct panel_desc eastrising_er_tft050_3 = {
++	.modes = &eastrising_er_tft050_3_mode,
++	.num_modes = 1,
++	.bpc = 6,
++	.size = {
++		.width = 800,
++		.height = 480,
++	},
++};
++
+ static const struct display_timing kyo_tcg121xglp_timing = {
+ 	.pixelclock = { 52000000, 65000000, 71000000 },
+ 	.hactive = { 1024, 1024, 1024 },
+@@ -1278,6 +1301,9 @@ static const struct of_device_id platform_of_match[] = {
+ 		.compatible = "edt,etm0700g0dh6",
+ 		.data = &edt_etm0700g0dh6,
+ 	}, {
++		.compatible = "eastrising,er-tft050-3",
++		.data = &eastrising_er_tft050_3,
++	}, {
+ 		.compatible = "foxlink,fl500wvr00-a0t",
+ 		.data = &foxlink_fl500wvr00_a0t,
+ 	}, {
+-- 
+2.1.4
+

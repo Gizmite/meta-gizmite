@@ -14,10 +14,12 @@ SRCBRANCH = "master"
 SRCREV = "1410b74e4061e05a5d2bffb1f99829efce27c8a9"
 
 SRC_URI += " \
-	file://0001-Add-hardware-support-for-Gizmite-iMX6-DualLite-board.patch \
-	file://0002-Add-changes-originally-staged-by-xxx-for-Si114x-ALS-.patch \
-	file://0003-Add-device-tree-binding.patch \
-	file://0004-add-flexcan.patch \
-	file://0005-Remove-TI_ST-nodes-in-favour-of-using-HCI_UART-firmw.patch \
+	file://0001-Add-hardware-support-for-Gizmite-iMX6-DualLite-board.patch 	\
+	file://0002-Add-changes-originally-staged-by-xxx-for-Si114x-ALS-.patch 	\
+	file://0003-Add-device-tree-binding.patch 				\
+	file://0004-add-flexcan.patch 						\
+	file://0005-Remove-TI_ST-nodes-in-favour-of-using-HCI_UART-firmw.patch 	\
+	file://0006-Add-touchscreen-driver.patch				\
+	file://0007-add-panel-definition-for-ER-TFT050-3.patch			\
 "
 COMPATIBLE_MACHINE = "(mx6)"
