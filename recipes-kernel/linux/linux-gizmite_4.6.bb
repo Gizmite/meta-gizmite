@@ -23,6 +23,7 @@ SRC_URI += " \
 	file://0006-Add-touchscreen-driver.patch				\
 	file://0007-add-panel-definition-for-ER-TFT050-3.patch			\
 	file://0008-Add-touchscreen-display-backlight-and-bluetooth-RFKi.patch  \
+	file://0009-gpio-rfkiller-with-devicetree-support.patch			\
 "
 
 KERNEL_MODULE_AUTOLOAD += "gslx680-ts-acpi imx_ipuv3_crtc imxdrm parallel-display"
