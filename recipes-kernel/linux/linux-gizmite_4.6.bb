@@ -25,4 +25,6 @@ SRC_URI += " \
 	file://0008-Add-touchscreen-display-backlight-and-bluetooth-RFKi.patch  \
 "
 
+KERNEL_MODULE_AUTOLOAD += "gslx680-ts-acpi imx_ipuv3_crtc imxdrm parallel-display"
+
 COMPATIBLE_MACHINE = "(mx6)"
