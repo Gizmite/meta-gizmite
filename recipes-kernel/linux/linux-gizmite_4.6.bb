@@ -6,7 +6,8 @@ DESCRIPTION = "Mainline Linux Kernel used as the base for Gizmite project hardwa
 This package includes patches that can be applied to 4.6.x kernels for full Gizmite support. \
 "
 
-include linux-gizmite.inc
+require recipes-kernel/linux/linux-gizmite.inc
+require recipes-kernel/linux/linux-dtb.inc
 
 PV = "4.6+git${SRCPV}"
 
@@ -21,5 +22,7 @@ SRC_URI += " \
 	file://0005-Remove-TI_ST-nodes-in-favour-of-using-HCI_UART-firmw.patch 	\
 	file://0006-Add-touchscreen-driver.patch				\
 	file://0007-add-panel-definition-for-ER-TFT050-3.patch			\
+	file://0008-Add-touchscreen-display-backlight-and-bluetooth-RFKi.patch  \
 "
+
 COMPATIBLE_MACHINE = "(mx6)"
