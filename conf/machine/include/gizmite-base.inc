@@ -15,10 +15,7 @@ UBOOT_ENTRYPOINT_mx6sl = "0x80008000"
 UBOOT_ENTRYPOINT_mx6sx = "0x80008000"
 UBOOT_ENTRYPOINT_mx7 = "0x80008000"
 
-# Add image FS types from fsl bsp for now
-# TODO: replace with Gizmite specific image types
-
-IMAGE_CLASSES += "image_types_fsl"
+IMAGE_CLASSES += "image_types_gizmite"
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
 XSERVER_DRIVER = "xf86-video-armada"
