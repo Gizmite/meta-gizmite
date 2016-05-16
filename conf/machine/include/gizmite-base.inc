@@ -21,8 +21,7 @@ UBOOT_ENTRYPOINT_mx7 = "0x80008000"
 IMAGE_CLASSES += "image_types_fsl"
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
-XSERVER_DRIVER = "xf86-video-fbdev"
-XSERVER_DRIVER_mx6 = "xf86-video-armada"
+XSERVER_DRIVER = "xf86-video-armada"
 XSERVER = "xserver-xorg \
            xf86-input-evdev \
            ${XSERVER_DRIVER}"
@@ -43,15 +42,9 @@ DEFAULTTUNE_mx7 ?= "cortexa7thf-neon"
 
 # Sub-architecture support
 MACHINE_SOCARCH_SUFFIX ?= ""
-MACHINE_SOCARCH_SUFFIX_mx6q = "-mx6qdl"
-MACHINE_SOCARCH_SUFFIX_mx6dl = "-mx6qdl"
-MACHINE_SOCARCH_SUFFIX_mx6sx = "-mx6sx"
-MACHINE_SOCARCH_SUFFIX_mx6sl = "-mx6sl"
-MACHINE_SOCARCH_SUFFIX_mx7 = "-mx7d"
-MACHINE_SOCARCH_SUFFIX_mx6ul = "-mx6ul"
 
 MACHINE_ARCH_FILTER = "virtual/kernel imx-vpu"
-MACHINE_SOCARCH_FILTER_append_mx6 = " virtual/libopenvg virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa virtual/libgl virtual/libg2d"
+MACHINE_SOCARCH_FILTER_append = " virtual/libopenvg virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa virtual/libgl virtual/libg2d"
 
 # Firmware
 MACHINE_FIRMWARE ?= "linux-firmware"
@@ -61,35 +54,19 @@ MACHINE_EXTRA_RRECOMMENDS += "${MACHINE_FIRMWARE}"
 # Extra udev rules
 MACHINE_EXTRA_RRECOMMENDS += "udev-rules-imx"
 
-# mx6 GPU libraries
-PREFERRED_PROVIDER_virtual/egl_mx6q ?= "mesa"
-PREFERRED_PROVIDER_virtual/egl_mx6dl ?= "mesa"
-PREFERRED_PROVIDER_virtual/egl_mx6sx ?= "mesa"
-PREFERRED_PROVIDER_virtual/egl_mx6sl ?= "mesa"
-PREFERRED_PROVIDER_virtual/egl_mx6ul ?= "mesa"
-
-PREFERRED_PROVIDER_virtual/libgles1_mx6q ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles1_mx6dl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles1_mx6sx ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles1_mx6sl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles1_mx6ul ?= "mesa"
-
-PREFERRED_PROVIDER_virtual/libgles2_mx6q ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles2_mx6dl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles2_mx6sx ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles2_mx6sl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgles2_mx6ul ?= "mesa"
-
-PREFERRED_PROVIDER_virtual/libgl_mx6q ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgl_mx6dl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgl_mx6sx ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgl_mx6sl ?= "mesa"
-PREFERRED_PROVIDER_virtual/libgl_mx6ul ?= "mesa"
+# etnaviv GPU libraries
+PREFERRED_PROVIDER_drm = "libdrm-etnaviv"
+PREFERRED_PROVIDER_libdrm = "libdrm-etnaviv"
+PREFERRED_PROVIDER_mesa = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/mesa = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/egl = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/libgles1 = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/libgles2 = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/libgl = "mesa-etnaviv"
+PREFERRED_PROVIDER_virtual/libgl = "mesa-etnaviv"
 
 # Handle default kernel
 IMX_DEFAULT_KERNEL = "linux-gizmite"
-IMX_DEFAULT_KERNEL_mx6 = "linux-gizmite"
-IMX_DEFAULT_KERNEL_mx6ul = "linux-gizmite"
 
 PREFERRED_PROVIDER_virtual/kernel ??= "${IMX_DEFAULT_KERNEL}"
 
