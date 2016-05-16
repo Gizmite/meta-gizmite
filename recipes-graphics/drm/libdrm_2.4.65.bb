@@ -7,7 +7,7 @@ HOMEPAGE = "http://dri.freedesktop.org"
 SECTION = "x11/base"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
-PROVIDES = "drm"
+PROVIDES = "drm libdrm"
 DEPENDS = "libpthread-stubs udev libpciaccess"
 
 SRC_URI = "git://github.com/austriancoder/libdrm.git"

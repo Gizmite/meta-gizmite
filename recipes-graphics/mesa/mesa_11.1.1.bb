@@ -1,4 +1,4 @@
-require ${BPN}.inc
+require mesa-etnaviv.inc
 
 DEFAULT_PREFERENCE = "-1"
 
