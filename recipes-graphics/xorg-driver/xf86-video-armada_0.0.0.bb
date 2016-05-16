@@ -4,8 +4,7 @@ SUMMARY = "X.Org graphics driver for KMS systems with pluggable GPU backends"
 DESCRIPTION = "The xf86-video-armada module is a 2D graphics driver for the X Window \
 system as implemented by X.org."
 
-# Assumed license under xorg guidelines, will update when clarified from the original copyright owners
-LICENSE = "XFree-1.0"
+LICENSE = "MIT"
 
 DEPENDS += "libdrm_armada"
 
