@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
 PROVIDES = "drm libdrm"
 DEPENDS = "libpthread-stubs udev libpciaccess"
 
+SRCREV = "6b09856af925d4fe4a301010c46fbfa4892f82d9"
 SRC_URI = "git://github.com/austriancoder/libdrm.git"
 
 inherit autotools pkgconfig
