@@ -1,0 +1,31 @@
+From cf32b5e73ce2009be1188145132a8d498d61ee10 Mon Sep 17 00:00:00 2001
+From: "Steven Barker (lilstevie)" <lilstevie@lilstevie.geek.nz>
+Date: Mon, 16 May 2016 23:54:17 +1000
+Subject: [PATCH] etnadrm compiles without GALCore so don't require it
+
+Signed-off-by: Steven Barker (lilstevie) <lilstevie@lilstevie.geek.nz>
+
+diff --git a/configure.ac b/configure.ac
+index 38f66ff..a18fdf1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -151,7 +151,7 @@ AC_ARG_WITH(etnaviv-lib,
+                            [specify directory for installed etnaviv library [[default=unset]]]),
+             [etnaviv_lib="$withval"])
+ 
+-AS_IF([test x$ACCEL_ETNAVIV != xno || test x$ACCEL_ETNADRM != xno],
++AS_IF([test x$ACCEL_ETNAVIV != xno],
+       [
+    AS_IF([test x$etnaviv_source != x],
+          [
+@@ -175,7 +175,7 @@ AS_IF([test x$ACCEL_ETNAVIV != xno || test x$ACCEL_ETNADRM != xno],
+    AC_CHECK_LIB([etnaviv], [viv_open],
+                 [AS_IF([test x$ACCEL_ETNAVIV = xauto], [ACCEL_ETNAVIV=yes])
+ 		 AS_IF([test x$ACCEL_ETNADRM = xauto], [ACCEL_ETNADRM=yes])],
+-                [ACCEL_ETNAVIV=no ACCEL_ETNADRM=no])
++                [ACCEL_ETNAVIV=no])
+    AS_IF([test x$ACCEL_ETNAVIV != xno],
+          [
+       AC_CHECK_LIB([etnaviv], [etna_bo_from_dmabuf],
+-- 
+2.1.4

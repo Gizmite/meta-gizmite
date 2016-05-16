@@ -13,5 +13,6 @@ SRCREV = "05bc938199b236616451f9792e098181e80b078f"
 BRANCH = "novena-r2"
 PV = "0.0.0+gitr${SRCPV}"
 
-SRC_URI = "git://github.com/xobs/xserver-xorg-video-armada.git;branch=${BRANCH}"
+SRC_URI = "git://github.com/xobs/xserver-xorg-video-armada.git;branch=${BRANCH} \
+	   file://0001-etnadrm-compiles-without-GALCore-so-don-t-require-it.patch"
 S = "${WORKDIR}/git"
