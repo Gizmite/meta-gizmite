@@ -12,7 +12,7 @@ require recipes-kernel/linux/linux-dtb.inc
 PV = "4.6+git${SRCPV}"
 
 SRCBRANCH = "master"
-SRCREV = "1410b74e4061e05a5d2bffb1f99829efce27c8a9"
+SRCREV = "2dcd0af568b0cf583645c8a317dd12e344b1c72a"
 
 SRC_URI += " \
 	file://0001-Add-hardware-support-for-Gizmite-iMX6-DualLite-board.patch 	\
