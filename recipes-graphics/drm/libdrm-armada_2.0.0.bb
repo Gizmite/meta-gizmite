@@ -6,7 +6,7 @@ accelerated OpenGL drivers."
 HOMEPAGE = "http://dri.freedesktop.org"
 SECTION = "x11/base"
 LICENSE = "GPLv2"
-PROVIDES = "drm"
+PROVIDES = "libdrm-armada"
 DEPENDS = "libdrm"
 
 SRCREV = "6b461c163b0bd02c76b65d94cc2fb3767167bda8"
