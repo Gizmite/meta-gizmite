@@ -3,9 +3,10 @@ require ${BPN}.inc
 DEFAULT_PREFERENCE = "-1"
 
 SRCREV = "407430fcddf96008725b2fe4a04d7aff6da6da50"
+BRANCH = "11.1_etnaviv"
 PV = "11.1+git${SRCPV}"
 
-SRC_URI = "git://github.com/etnaviv/mesa.git;branch=master"
+SRC_URI = "git://github.com/etnaviv/mesa.git;branch=${BRANCH}"
 
 S = "${WORKDIR}/git"
 
