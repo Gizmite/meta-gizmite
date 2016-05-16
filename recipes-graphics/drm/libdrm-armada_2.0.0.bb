@@ -14,6 +14,8 @@ SRC_URI = "git://ftp.arm.linux.org.uk/~rmk/libdrm-armada.git"
 
 inherit autotools pkgconfig
 
+S = "${WORKDIR}/git"
+
 PACKAGES =+ "${PN}-armada"
 
 FILES_${PN}-armada = "${libdir}/libdrm_armada.so.*"
