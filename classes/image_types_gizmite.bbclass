@@ -10,7 +10,7 @@ UBOOT_SUFFIX_SDCARD ?= "${UBOOT_SUFFIX}"
 BOOTDD_VOLUME_ID ?= "Boot ${MACHINE}"
 
 # Boot partition size [in KiB]
-BOOT_SPACE ?= "8192"
+BOOT_SPACE ?= "30720"
 
 # Barebox environment size [in KiB]
 BAREBOX_ENV_SPACE ?= "512"
@@ -37,7 +37,7 @@ _generate_boot_image() {
 
 	# Create boot partition image
 	BOOT_BLOCKS=$(LC_ALL=C parted -s ${SDCARD} unit b print \
-	                  | awk "/ $boot_part / { print substr(\$4, 1, length(\$4 -1)) / 1024 }")
+	                  | awk "/ $boot_part / ${BOOT_SPACE}")
 
 	# mkdosfs will sometimes use FAT16 when it is not appropriate,
 	# resulting in a boot failure from SYSLINUX. Use FAT32 for
