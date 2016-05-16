@@ -43,7 +43,7 @@ DEFAULTTUNE_mx7 ?= "cortexa7thf-neon"
 # Sub-architecture support
 MACHINE_SOCARCH_SUFFIX ?= ""
 
-MACHINE_ARCH_FILTER = "virtual/kernel imx-vpu"
+MACHINE_ARCH_FILTER = "virtual/kernel"
 MACHINE_SOCARCH_FILTER_append = " virtual/libopenvg virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa virtual/libgl virtual/libg2d"
 
 # Firmware
