@@ -51,17 +51,6 @@ MACHINE_EXTRA_RRECOMMENDS += "${MACHINE_FIRMWARE}"
 # Extra udev rules
 MACHINE_EXTRA_RRECOMMENDS += "udev-rules-imx"
 
-# etnaviv GPU libraries
-PREFERRED_PROVIDER_drm = "libdrm-etnaviv"
-PREFERRED_PROVIDER_libdrm = "libdrm-etnaviv"
-PREFERRED_PROVIDER_mesa = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/mesa = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/egl = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/libgles1 = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/libgles2 = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/libgl = "mesa-etnaviv"
-PREFERRED_PROVIDER_virtual/libgl = "mesa-etnaviv"
-
 # Handle default kernel
 IMX_DEFAULT_KERNEL = "linux-gizmite"
 
