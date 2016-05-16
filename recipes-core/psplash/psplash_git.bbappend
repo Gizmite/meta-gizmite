@@ -7,4 +7,6 @@ DEPENDS += "gdk-pixbuf-native"
 
 PRINC = "8"
 
+SRC_URI += "file://psplash-init"
+
 SPLASH_IMAGES = "file://psplash-poky-img.png;outsuffix=default"

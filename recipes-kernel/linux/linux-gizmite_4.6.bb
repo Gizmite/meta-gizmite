@@ -26,6 +26,6 @@ SRC_URI += " \
 	file://0009-gpio-rfkiller-with-devicetree-support.patch			\
 "
 
-KERNEL_MODULE_AUTOLOAD += "gslx680_ts_acpi imx-ipuv3-crtc imxdrm parallel-display"
+KERNEL_MODULE_AUTOLOAD += "gslx680_ts_acpi"
 
 COMPATIBLE_MACHINE = "(mx6)"
