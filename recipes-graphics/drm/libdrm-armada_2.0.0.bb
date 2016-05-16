@@ -5,8 +5,7 @@ stands for \"Direct Rendering Manager\", which is the kernel portion of the \
 accelerated OpenGL drivers."
 HOMEPAGE = "http://dri.freedesktop.org"
 SECTION = "x11/base"
-LICENSE = "MIT-X"
-LIC_FILES_CHKSUM = "file://src/armada_drm.c;beginline=1;endline=6;md5=dccd8d7cf3376522562dda2b67b40130"
+LICENSE = "CLOSED"
 PROVIDES = "libdrm-armada"
 DEPENDS = "libdrm"
 
