@@ -22,6 +22,8 @@ EXTRA_OECONF += "--disable-cairo-tests \
                  --disable-valgrind \
                 "
 
+S = "${WORKDIR}/git"
+
 ALLOW_EMPTY_${PN}-drivers = "1"
 PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-etnaviv"
 
