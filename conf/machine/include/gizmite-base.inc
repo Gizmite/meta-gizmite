@@ -3,8 +3,8 @@
 include conf/machine/include/soc-family.inc
 
 # Set specific make target and binary suffix
-PREFERRED_PROVIDER_u-boot ??= "u-boot-fslc"
-PREFERRED_PROVIDER_virtual/bootloader ??= "u-boot-fslc"
+PREFERRED_PROVIDER_u-boot ??= "u-boot-gizmite"
+PREFERRED_PROVIDER_virtual/bootloader ??= "u-boot-gizmite"
 
 UBOOT_MAKE_TARGET ?= "u-boot.imx"
 
@@ -44,7 +44,7 @@ DEFAULTTUNE_mx7 ?= "cortexa7thf-neon"
 MACHINE_SOCARCH_SUFFIX ?= ""
 
 MACHINE_ARCH_FILTER = "virtual/kernel"
-MACHINE_SOCARCH_FILTER_append = " virtual/libopenvg virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa virtual/libgl virtual/libg2d"
+MACHINE_SOCARCH_FILTER_append_mx6 = " virtual/libopenvg virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa virtual/libgl virtual/libg2d"
 
 # Firmware
 MACHINE_FIRMWARE ?= "linux-firmware"
